@@ -9,7 +9,7 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  title: "Events",
+  title: { default: "Tiketi", template: "%s | Tiketi" },
   description: "Find events and get the details.",
 };
 

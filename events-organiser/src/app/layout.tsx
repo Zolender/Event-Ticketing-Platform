@@ -9,8 +9,12 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  title: "Organiser",
+  title: {
+    default: "Tiketi for organisers",
+    template: "%s | Tiketi for organisers",
+  },
   description: "Manage your events.",
+  robots: { index: false, follow: false },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
