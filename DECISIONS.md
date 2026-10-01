@@ -85,6 +85,11 @@ construction; each section says which. Where I weighed options, the ones I did n
   URL). One data access function serves both the server prefetch and the route handler.
 - Publishing waits for the server rather than updating optimistically: a publish can be refused,
   and the screen should never show a state that is not true. Signing out clears the cache.
+- During construction: the organiser's events load as one query, and the Published, Drafts and Past
+  tabs are views of it. That gives counts on every tab, instant switching, and an event that moves
+  between tabs by itself after publishing, because there is only one cache to update. Organisers
+  have tens of events; with hundreds, this becomes one query per tab with cursor pagination. Whether
+  an event is past is decided on the server, so the server and browser always render the same.
 
 ## Styling (decided during construction)
 
@@ -92,10 +97,13 @@ construction; each section says which. Where I weighed options, the ones I did n
   Google's Material colour library (the engine behind Theme Builder), Roboto, and Material icons
   inlined as SVG. MUI follows Material 2, and Google's own web components are in maintenance mode
   and render only in the browser, which works against SEO.
-- Colour: amber, at Material's medium contrast, in light and dark following the device. I started
-  with coral, then compared eight hues as real sign-in screens: deep blue felt generic, and violet
-  is Material's default colour (one may have thought I didn't bother choosing). A custom warning
-  colour, orange harmonised to amber, fills the role Material 3 does not define.
+- Colour: royal navy (`#1E3A8A`) with Material's fidelity scheme, which keeps the seed's own depth
+  instead of muting it, at standard contrast in light and dark, following the device. I went
+  through coral and several ambers first, and violet is Material's default (one may have thought I
+  didn't bother choosing). The ambers either turned brown in light mode or glared in dark mode;
+  this navy stays deep in light and becomes a calm light blue in dark. Material 3 has no warning
+  colour, so a custom one fills the role: gold harmonised to the navy (orange harmonised into a
+  red too close to the error colour).
 - The product is called Tiketi (Swahili for "ticket"), so both apps read as one platform. Messages
   follow one rule: errors block and say how to fix them, warnings inform without blocking, and info
   explains why you are on a page. Field messages fit one line, banners at most two.
