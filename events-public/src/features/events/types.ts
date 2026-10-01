@@ -27,6 +27,8 @@ export type EventDetail = EventCard & {
   organiserName: string;
   tiers: Tier[];
   updatedAt: string;
+  /** Decided on the server when the page is made, so server and browser render the same. */
+  past: boolean;
 };
 
 export type EventPage = {

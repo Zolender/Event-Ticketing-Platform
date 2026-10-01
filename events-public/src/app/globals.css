@@ -194,25 +194,6 @@
 }
 
 @layer components {
-  /* A ticket's notches: half circles cut out where the perforation runs, --cut from the left. */
-  .ticket-notches {
-    --notch: 9px;
-    mask:
-      radial-gradient(circle var(--notch) at var(--cut) 0, #0000 98%, #000)
-        top / 100% 51% no-repeat,
-      radial-gradient(circle var(--notch) at var(--cut) 100%, #0000 98%, #000)
-        bottom / 100% 51% no-repeat;
-  }
-  /* The same ticket stood on its end (phones): notches on the sides, --cut from the top. */
-  .ticket-notches-y {
-    --notch: 12px;
-    mask:
-      radial-gradient(circle var(--notch) at 0 var(--cut), #0000 98%, #000)
-        left / 51% 100% no-repeat,
-      radial-gradient(circle var(--notch) at 100% var(--cut), #0000 98%, #000)
-        right / 51% 100% no-repeat;
-  }
-
   /* Native dialogs: the panel rises in, the backdrop fades; both instant with reduced motion. */
   dialog[open] {
     animation: var(--animate-rise);
@@ -227,4 +208,17 @@
       animation: none;
     }
   }
+}
+
+/* A ticket's notches: half circles cut out where the perforation runs, --cut from the left. */
+@utility ticket-notches {
+  mask:
+    radial-gradient(circle var(--notch, 9px) at var(--cut) 0, #0000 98%, #000)
+      top / 100% 51% no-repeat,
+    radial-gradient(
+        circle var(--notch, 9px) at var(--cut) 100%,
+        #0000 98%,
+        #000
+      )
+      bottom / 100% 51% no-repeat;
 }

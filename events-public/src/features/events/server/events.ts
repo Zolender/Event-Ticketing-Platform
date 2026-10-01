@@ -74,6 +74,7 @@ export const getPublishedEvent = cache(
       organiserName: text(row, "organiser_name"),
       tiers: tiersOf(row),
       updatedAt: text(row, "updated_at"),
+      past: Date.parse(text(row, "starts_at")) <= Date.now(),
     };
   },
 );
