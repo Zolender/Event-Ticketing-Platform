@@ -107,6 +107,14 @@ construction; each section says which. Where I weighed options, the ones I did n
 - The product is called Tiketi (Swahili for "ticket"), so both apps read as one platform. Messages
   follow one rule: errors block and say how to fix them, warnings inform without blocking, and info
   explains why you are on a page. Field messages fit one line, banners at most two.
+- The organiser app has a rail of sections (Events now; Venues and Account as they are built) and
+  a bottom bar on phones. I considered a top bar with tabs alone, but venues are real records worth
+  their own page. The rail collapses to icons, with labels as tooltips; it pushes the content
+  rather than covering it, and the choice is kept in a cookie so the server renders the same width
+  on the next visit, with no jump. Sign out sits in an account menu behind the avatar.
+- Motion explains a change rather than decorating it: pages and rows rise in, and the tab
+  underline slides, using Material's curves and staying around 250 milliseconds. People who ask
+  their system for reduced motion get short fades only.
 
 ## Deployment (before building)
 
