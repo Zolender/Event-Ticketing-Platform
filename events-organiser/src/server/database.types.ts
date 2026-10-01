@@ -208,6 +208,7 @@ export type Database = {
           description: string | null;
           organiser_name: string | null;
           public_id: string | null;
+          search_text: string | null;
           slug: string | null;
           starts_at: string | null;
           tiers: Json | null;
