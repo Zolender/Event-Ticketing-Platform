@@ -3,9 +3,8 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 
-export function SignOutButton() {
+export function useSignOut() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const [pending, setPending] = useState(false);
@@ -23,9 +22,5 @@ export function SignOutButton() {
     router.refresh();
   }
 
-  return (
-    <Button variant="text" onClick={signOut} disabled={pending}>
-      Sign out
-    </Button>
-  );
+  return { signOut, pending };
 }

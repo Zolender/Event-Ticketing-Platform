@@ -97,3 +97,14 @@ export const ScheduleIcon = (props: IconProps) => (
     path="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"
   />
 );
+
+export const MenuIcon = (props: IconProps) => (
+  <Icon {...props} path="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+);
+
+export const SignOutIcon = (props: IconProps) => (
+  <Icon
+    {...props}
+    path="M10.09 15.59 11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67l-2.58 2.59zM19 3H5a2 2 0 0 0-2 2v4h2V5h14v14H5v-4H3v4a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"
+  />
+);
