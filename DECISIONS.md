@@ -91,6 +91,39 @@ construction; each section says which. Where I weighed options, the ones I did n
   have tens of events; with hundreds, this becomes one query per tab with cursor pagination. Whether
   an event is past is decided on the server, so the server and browser always render the same.
 
+## Creating and editing events (during construction)
+
+- An event's time is what the organiser typed on the venue's wall clock. The form sends the date
+  and time as plain text with the venue; the server turns them into an instant with the venue's
+  zone, never the browser's or the server's. A time that does not exist (clocks jumping forward) is
+  refused with the next valid time suggested, rather than shifted silently; a time that happens
+  twice takes its first occurrence. Day.js does the zone arithmetic, and the rules are pinned by
+  unit tests on Node's own test runner (Kigali, London and New York around their clock changes, a
+  leap day, midnight crossings), run with the machine set to different zones.
+- An event and its tiers, and a venue created in the same form, are saved by one database function
+  in one transaction, so a refused save leaves nothing half written. It runs as the organiser, so
+  the access policies still apply. Not taken: several requests from the server, which can fail
+  halfway.
+- Prices are typed in the currency's own units ("8000" francs, "12.50" pounds) and stored in its
+  smallest unit, worked out on the digits rather than with floating point.
+- The form checks with the same schema as the server, field by field, the sign-in way: a message
+  appears when a field is left and goes as soon as it is fixed. A passed date only warns on a
+  draft, and blocks on a published event only when the date moves, as the database does, so an
+  event that has ended can still have a typo fixed.
+
+## Venues (during construction)
+
+- Venues have their own page, as well as being created inside the event form. Editing one tells
+  the organiser before saving what it does to the events there.
+- When a venue's timezone changes, its events to come keep their times as typed ("19:30" stays
+  19:30, now in the new zone): the database moves their instants in the same transaction as the
+  venue, and refuses the change if one would land in a clock change. Events that have ended keep
+  their recorded time. Not taken: changing the zone alone, which would silently move every event
+  there by the difference.
+- A venue can be deleted only while no event uses it, past ones included, because the database
+  refuses otherwise; the page says why instead of failing. Undo creates it again as it was, which
+  is the same venue, since nothing pointed to it.
+
 ## Account (during construction)
 
 - The account page shows the organiser name with a preview of how the public sees it, since it

@@ -223,7 +223,31 @@ export type Database = {
       };
     };
     Functions: {
-      [_ in never]: never;
+      save_event: {
+        Args: {
+          p_currency: string;
+          p_description?: string;
+          p_event_id?: string;
+          p_new_venue?: Json;
+          p_slug: string;
+          p_starts_at: string;
+          p_tiers: Json;
+          p_title: string;
+          p_venue_id?: string;
+        };
+        Returns: string;
+      };
+      update_venue: {
+        Args: {
+          p_address: string;
+          p_city: string;
+          p_country: string;
+          p_name: string;
+          p_timezone: string;
+          p_venue_id: string;
+        };
+        Returns: undefined;
+      };
     };
     Enums: {
       event_status: "draft" | "published";

@@ -3,8 +3,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, type ComponentType, type ReactNode } from "react";
-import { EventsIcon, MenuIcon, PersonIcon } from "@/components/ui/icons";
+import {
+  EventsIcon,
+  MenuIcon,
+  PersonIcon,
+  PlaceIcon,
+} from "@/components/ui/icons";
 import { Logo } from "@/components/ui/logo";
+import { SnackbarHost } from "@/components/ui/snackbar";
 import { AccountMenu } from "@/features/auth/account-menu";
 
 export type RailState = "auto" | "expanded" | "collapsed";
@@ -17,6 +23,7 @@ const sections: {
   icon: ComponentType<{ className?: string }>;
 }[] = [
   { href: "/events", label: "Events", icon: EventsIcon },
+  { href: "/venues", label: "Venues", icon: PlaceIcon },
   { href: "/account", label: "Account", icon: PersonIcon },
 ];
 const ONE_YEAR = 60 * 60 * 24 * 365;
@@ -115,6 +122,7 @@ export function AppShell({
           </Link>
         ))}
       </nav>
+      <SnackbarHost />
     </div>
   );
 }

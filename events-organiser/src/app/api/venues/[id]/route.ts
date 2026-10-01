@@ -1,23 +1,13 @@
 import { NextResponse } from "next/server";
-import { deleteEvent, saveEvent } from "@/features/events/server/event-writes";
-import { getMyEvent } from "@/features/events/server/events";
+import {
+  deleteVenue,
+  updateVenue,
+} from "@/features/venues/server/venue-writes";
 import { getOrganiser } from "@/server/auth";
 import { problem, rejectCrossSiteWrite, refused } from "@/server/http";
 
-type Context = RouteContext<"/api/events/[id]">;
+type Context = RouteContext<"/api/venues/[id]">;
 
-export async function GET(_request: Request, { params }: Context) {
-  const organiser = await getOrganiser();
-  if (!organiser)
-    return problem(401, "session_ended", "Sign in again to continue.");
-
-  const event = await getMyEvent(organiser, (await params).id);
-  // Missing and someone else's look the same, so nothing reveals that an event exists.
-  if (!event) return problem(404, "not_found", "This event does not exist.");
-  return NextResponse.json(event);
-}
-
-/** Saves the whole form, and answers with the event as it now is. */
 export async function PATCH(request: Request, { params }: Context) {
   const rejected = rejectCrossSiteWrite(request);
   if (rejected) return rejected;
@@ -25,14 +15,13 @@ export async function PATCH(request: Request, { params }: Context) {
   if (!organiser)
     return problem(401, "session_ended", "Sign in again to continue.");
 
-  const { id } = await params;
-  const result = await saveEvent(
+  const result = await updateVenue(
     organiser,
+    (await params).id,
     await request.json().catch(() => null),
-    id,
   );
   if (!result.ok) return refused(result);
-  return NextResponse.json(await getMyEvent(organiser, id));
+  return new NextResponse(null, { status: 204 });
 }
 
 export async function DELETE(request: Request, { params }: Context) {
@@ -43,7 +32,7 @@ export async function DELETE(request: Request, { params }: Context) {
   if (!organiser)
     return problem(401, "session_ended", "Sign in again to continue.");
 
-  const result = await deleteEvent(organiser, (await params).id);
+  const result = await deleteVenue(organiser, (await params).id);
   if (!result.ok) return refused(result);
   return new NextResponse(null, { status: 204 });
 }

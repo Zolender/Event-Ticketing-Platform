@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { saveEvent } from "@/features/events/server/event-writes";
-import { listMyEvents } from "@/features/events/server/events";
+import { createVenue } from "@/features/venues/server/venue-writes";
+import { listMyVenues } from "@/features/venues/server/venues";
 import { getOrganiser } from "@/server/auth";
 import { problem, rejectCrossSiteWrite, refused } from "@/server/http";
 
@@ -8,7 +8,7 @@ export async function GET() {
   const organiser = await getOrganiser();
   if (!organiser)
     return problem(401, "session_ended", "Sign in again to continue.");
-  return NextResponse.json(await listMyEvents(organiser));
+  return NextResponse.json(await listMyVenues(organiser));
 }
 
 export async function POST(request: Request) {
@@ -18,7 +18,7 @@ export async function POST(request: Request) {
   if (!organiser)
     return problem(401, "session_ended", "Sign in again to continue.");
 
-  const result = await saveEvent(
+  const result = await createVenue(
     organiser,
     await request.json().catch(() => null),
   );

@@ -26,6 +26,10 @@ export type TicketTier = {
 export type EventDetail = Omit<EventSummary, "venue"> & {
   description: string | null;
   firstPublishedAt: string | null;
-  venue: EventSummary["venue"] & { address: string; country: string };
+  venue: EventSummary["venue"] & {
+    id: string;
+    address: string;
+    country: string;
+  };
   tiers: TicketTier[];
 };

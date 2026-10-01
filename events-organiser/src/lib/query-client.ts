@@ -11,6 +11,8 @@ export function makeQueryClient() {
         retry: (failures, error) =>
           !(error instanceof SessionEndedError) && failures < 3,
       },
+      // A write is never repeated on its own: the organiser decides whether to try again.
+      mutations: { retry: false },
     },
   });
 }

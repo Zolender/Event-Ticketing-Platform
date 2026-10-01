@@ -109,6 +109,86 @@ export const SignOutIcon = (props: IconProps) => (
   />
 );
 
+export const EditIcon = (props: IconProps) => (
+  <Icon
+    {...props}
+    path="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+  />
+);
+
+export const MoreIcon = (props: IconProps) => (
+  <Icon
+    {...props}
+    path="M12 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm0 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm0 6a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"
+  />
+);
+
+export const DeleteIcon = (props: IconProps) => (
+  <Icon
+    {...props}
+    path="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
+  />
+);
+
+export const ArrowUpIcon = (props: IconProps) => (
+  <Icon {...props} path="M7.41 15.41 12 10.83l4.59 4.58L18 14l-6-6-6 6z" />
+);
+
+export const ArrowDownIcon = (props: IconProps) => (
+  <Icon {...props} path="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z" />
+);
+
+export const DropdownIcon = (props: IconProps) => (
+  <Icon {...props} path="M7 10l5 5 5-5z" />
+);
+
+export const CheckIcon = (props: IconProps) => (
+  <Icon {...props} path="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+);
+
+export const CloseIcon = (props: IconProps) => (
+  <Icon
+    {...props}
+    path="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+  />
+);
+
+export const ChevronLeftIcon = (props: IconProps) => (
+  <Icon {...props} path="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+);
+
+export const ChevronRightIcon = (props: IconProps) => (
+  <Icon {...props} path="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+);
+
+export const SearchIcon = (props: IconProps) => (
+  <Icon
+    {...props}
+    path="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+  />
+);
+
+export const DoneCircleIcon = (props: IconProps) => (
+  <Icon
+    {...props}
+    path="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm-2 15-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+  />
+);
+
+export const TodoCircleIcon = (props: IconProps) => (
+  <Icon
+    {...props}
+    path="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16z"
+  />
+);
+
+export const LockIcon = (props: IconProps) => (
+  <Icon
+    {...props}
+    path="M18 8h-1V6A5 5 0 0 0 7 6v2H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2zM9 6a3 3 0 0 1 6 0v2H9V6zm3 11a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"
+  />
+);
+
 export const PersonIcon = (props: IconProps) => (
   <Icon
     {...props}
