@@ -1,6 +1,6 @@
-# Event Ticketing Platform
+# Tiketi
 
-A small event ticketing platform. Visitors browse upcoming events and read their details;
+A small event ticketing platform (the product is called Tiketi, Swahili for "ticket"). Visitors browse upcoming events and read their details;
 organisers sign in to create, edit and publish the events they own. Every event is either a draft,
 seen only by its organiser, or published. Checkout and payments are out of scope.
 

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <style>
+    .tile { fill: #423500 }
+    .ticket { fill: #f6db81 }
+    .tear { stroke: #423500 }
+    @media (prefers-color-scheme: dark) {
+      .tile { fill: #f6db81 }
+      .ticket { fill: #423500 }
+      .tear { stroke: #f6db81 }
+    }
+  </style>
+  <rect class="tile" width="32" height="32" rx="8" />
+  <path class="ticket" d="M6 10.5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v2.2a3.3 3.3 0 0 0 0 6.6v2.2a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-2.2a3.3 3.3 0 0 0 0-6.6z" />
+  <path class="tear" d="M19.5 10.5v11" fill="none" stroke-width="1.6" stroke-dasharray="2 2" stroke-linecap="round" />
+</svg>
