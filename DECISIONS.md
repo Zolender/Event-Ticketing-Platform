@@ -111,6 +111,19 @@ construction; each section says which. Where I weighed options, the ones I did n
   draft, and blocks on a published event only when the date moves, as the database does, so an
   event that has ended can still have a typo fixed.
 
+## Venues (during construction)
+
+- Venues have their own page, as well as being created inside the event form. Editing one tells
+  the organiser before saving what it does to the events there.
+- When a venue's timezone changes, its events to come keep their times as typed ("19:30" stays
+  19:30, now in the new zone): the database moves their instants in the same transaction as the
+  venue, and refuses the change if one would land in a clock change. Events that have ended keep
+  their recorded time. Not taken: changing the zone alone, which would silently move every event
+  there by the difference.
+- A venue can be deleted only while no event uses it, past ones included, because the database
+  refuses otherwise; the page says why instead of failing. Undo creates it again as it was, which
+  is the same venue, since nothing pointed to it.
+
 ## Styling (decided during construction)
 
 - Material Design by Google, built by hand on Tailwind as Material 3: tokens generated with
