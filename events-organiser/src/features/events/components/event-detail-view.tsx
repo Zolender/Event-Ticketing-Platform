@@ -332,7 +332,7 @@ export function EventDetailView({ id }: { id: string }) {
             <Button
               variant="text"
               onClick={deleteDraft}
-              className="text-error before:bg-error"
+              className="text-error! before:bg-error!"
             >
               Delete
             </Button>
