@@ -51,6 +51,14 @@ construction; each section says which. Where I weighed options, the ones I did n
   pages are refreshed by a database webhook when an event changes, so an unpublished event does
   not linger in a cache, and the two apps never call each other. Draft previews live inside the
   organiser app, never behind a secret public link.
+- During construction: the publishing rules are also enforced by database triggers, so a bug in
+  our server still cannot publish an incomplete event; the public id and the owner of an event
+  never change, and the date it was first published cannot be forged or erased. The
+  `published_events` view deliberately runs with its owner's rights (Supabase flags it as a
+  "security definer view"): that is what lets it be the one narrow door, showing published rows
+  and public columns only. The alternative, letting anonymous visitors read published rows of the
+  tables through policies, would expose every column of those rows. These guarantees are proven by
+  pgTAP tests in `supabase/tests` (`supabase test db`), run as the real roles.
 
 ## The public site (before building)
 
@@ -88,6 +96,16 @@ construction; each section says which. Where I weighed options, the ones I did n
   on Vercel. The projects are named after their folders, with `zolender-` added to the
   `.vercel.app` addresses because the plain names were taken. Deploys go through the CLI only;
   the Git integration is deliberately not connected.
+- During construction: the database is in Frankfurt and both apps' functions run there too
+  (`vercel.json`), because the distance that matters is between the functions and the database,
+  and Europe is the closest well-served region to a Kigali audience.
+- The hosted project is managed with the Supabase CLI: migrations with `db push`, and its auth
+  settings (sign-up closed, password minimum, site URL) from `config.toml` with `config push`. A
+  `[remotes.production]` block overrides what differs from local development, so the settings are
+  reviewable in the repository rather than hidden in a dashboard.
+- Seed data goes through Supabase's own APIs with one script for both environments; it reads the
+  target, the secret key and the passwords from environment variables, so no credential lives in
+  this public repository.
 
 ## With more time
 
