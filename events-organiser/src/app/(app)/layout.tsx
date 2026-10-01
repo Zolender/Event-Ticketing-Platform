@@ -3,8 +3,7 @@ import type { ReactNode } from "react";
 import { requireOrganiser } from "@/server/auth";
 import { AppShell, type RailState } from "./app-shell";
 
-// Layout B: a rail of app sections on tablets and up, a bottom bar on phones. Events is the only
-// section until Venues and Account are built.
+// Layout B: a rail of app sections on tablets and up, a bottom bar on phones.
 export default async function AppLayout({ children }: { children: ReactNode }) {
   const organiser = await requireOrganiser();
   const saved = (await cookies()).get("rail")?.value;
