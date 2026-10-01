@@ -78,6 +78,39 @@ construction; each section says which. Where I weighed options, the ones I did n
   the sitemap and search results.
 - Times show in the venue's zone, plus the visitor's own time added after hydration.
 
+## The public site (during construction)
+
+- Event pages are made on their first visit and then served from the cache (static regeneration),
+  with a five-minute limit so an event that starts shows as ended without anyone editing it; the
+  database webhook will expire a page the moment its event changes. I looked at Next 16's new
+  Cache Components first, but they stream a page shell before the event is looked up, so the
+  status is already 200: a draft would get a "soft" 404 and an old slug a redirect done in the
+  browser. Drafts must answer a real 404, and crawlers read status codes. Rendering fresh on every
+  request stays the fallback.
+- One rule for an event's address, applied before anything renders: no such published event (a
+  draft too) is a 404, an id that cannot exist never reaches the database, the exact canonical
+  address is the page, and any other address for the event (an old slug, capitals, a bare id for
+  posters) is a 308 to it.
+- The page draws the event as a ticket, its date on a navy stub, and the same ticket is the
+  preview image a shared link shows. The countdown and the visitor's own time are added in the
+  browser, so cached pages never carry stale text. The year is always shown here (the organiser
+  app hides the current one): an ended page can stay cached for a long time.
+- The structured data lists one offer per tier without availability: nothing is sold here and no
+  sales are tracked, so claiming stock would be untrue. Google's test shows a warning for it, not
+  an error.
+- The list groups events by month and loads twelve more at a time by cursor (start time, then
+  public id for events that start together), asking for one extra row to know whether more exist.
+  Page numbers would skip or repeat events while organisers publish.
+- Search waits for a 500 ms pause (people type slowly) and two characters, keeps the previous
+  results on screen while the next load, and replaces the URL rather than adding to history, so a
+  search can be shared and Back leaves the page. It matches an accent-free text the database
+  builds for each published event (title, venue, city, country, organiser), so "cafe" finds
+  "Café". Full-text search with ranking is kept for when there are enough events to rank. Search
+  result pages are not indexed; the list itself is.
+- The home page shows a section only when it has something in it, so one event or none still
+  looks intended. The organiser app links a live event to its public page; the apps still never
+  call each other.
+
 ## Data and state (before building)
 
 - TanStack Query where server state changes under the user: the organiser app (server prefetch,
@@ -193,5 +226,6 @@ construction; each section says which. Where I weighed options, the ones I did n
 - A dedicated backend, and checkout (whose hard part is never overselling the last ticket).
 - Image uploads in a private storage bucket, a strict Content Security Policy, a stepped create
   form, event end times, an end-to-end test suite.
+- Full-text search with stemming and ranking; "more from this organiser" on event pages.
 - Our own sign-in rate limit, per address and per account. Every sign-in reaches Supabase from our
   server, so Supabase's per-address limit (30 attempts in 5 minutes) sees one shared address.
