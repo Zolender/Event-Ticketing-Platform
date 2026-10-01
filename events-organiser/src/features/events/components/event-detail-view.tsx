@@ -16,6 +16,7 @@ import {
   EditIcon,
   LiveIcon,
   LockIcon,
+  OpenInNewIcon,
   PlaceIcon,
   ScheduleIcon,
   TodoCircleIcon,
@@ -393,6 +394,18 @@ function StatusCard({ event, live }: { event: EventDetail; live: boolean }) {
         <p className={`text-body-md ${live ? "" : "text-on-surface-variant"}`}>
           {text}
         </p>
+        {event.publicUrl && (
+          <a
+            href={event.publicUrl}
+            target="_blank"
+            rel="noopener"
+            className="-ml-3 mt-1 inline-flex h-10 items-center gap-2 rounded-full px-3 text-label-lg underline-offset-4 hover:bg-current/8 hover:underline focus-visible:outline-2 focus-visible:outline-primary"
+          >
+            View on public site
+            <OpenInNewIcon className="size-[18px]" />
+            <span className="sr-only">(opens in a new tab)</span>
+          </a>
+        )}
       </div>
     </section>
   );

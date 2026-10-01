@@ -12,6 +12,7 @@ const event: EventDetail = {
   currency: "RWF",
   description: null,
   firstPublishedAt: null,
+  publicUrl: null,
   venue: {
     id: "v",
     name: "Hall",

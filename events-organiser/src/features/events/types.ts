@@ -26,6 +26,8 @@ export type TicketTier = {
 export type EventDetail = Omit<EventSummary, "venue"> & {
   description: string | null;
   firstPublishedAt: string | null;
+  /** The event's public page while it is published; null for drafts, whose public address is a 404. */
+  publicUrl: string | null;
   venue: EventSummary["venue"] & {
     id: string;
     address: string;

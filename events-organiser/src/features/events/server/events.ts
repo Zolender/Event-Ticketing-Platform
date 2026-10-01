@@ -1,6 +1,7 @@
 import "server-only";
 import { z } from "zod";
 import type { Organiser } from "@/server/auth";
+import { publicSiteUrl } from "@/server/public-site";
 import { createSupabaseServerClient } from "@/server/supabase";
 import type { EventDetail, EventSummary } from "../types";
 
@@ -49,7 +50,7 @@ export async function getMyEvent(
   const { data, error } = await supabase
     .from("events")
     .select(
-      "id, title, status, starts_at, currency, description, first_published_at, venues(id, name, address, city, country, timezone), ticket_tiers(id, name, price, capacity, position)",
+      "id, public_id, slug, title, status, starts_at, currency, description, first_published_at, venues(id, name, address, city, country, timezone), ticket_tiers(id, name, price, capacity, position)",
     )
     .eq("id", id)
     .eq("organiser_id", organiser.id)
@@ -68,6 +69,12 @@ export async function getMyEvent(
     currency: data.currency,
     description: data.description,
     firstPublishedAt: data.first_published_at,
+    // The public site's address rule: slug, a hyphen, then the public id.
+    publicUrl:
+      data.status === "published"
+        ? new URL(`/events/${data.slug}-${data.public_id}`, publicSiteUrl())
+            .href
+        : null,
     venue: data.venues,
     prices: prices.length
       ? { min: Math.min(...prices), max: Math.max(...prices) }

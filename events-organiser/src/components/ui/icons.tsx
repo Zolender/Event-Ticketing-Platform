@@ -157,6 +157,13 @@ export const ChevronLeftIcon = (props: IconProps) => (
   <Icon {...props} path="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
 );
 
+export const OpenInNewIcon = (props: IconProps) => (
+  <Icon
+    {...props}
+    path="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
+  />
+);
+
 export const ChevronRightIcon = (props: IconProps) => (
   <Icon {...props} path="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
 );
