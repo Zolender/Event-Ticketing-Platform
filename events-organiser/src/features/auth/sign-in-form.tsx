@@ -141,7 +141,7 @@ export function SignInForm({ reason }: { reason?: SignInReason }) {
   const paused = pausedFor > 0;
 
   return (
-    <form onSubmit={onSubmit} noValidate className="flex flex-1 flex-col gap-4">
+    <form onSubmit={onSubmit} noValidate className="flex flex-col gap-4">
       {paused ? (
         <Banner kind="warning" title="Too many attempts">
           Try again in{" "}
@@ -176,12 +176,11 @@ export function SignInForm({ reason }: { reason?: SignInReason }) {
         onBlur={(event) => onBlur("password", event.target.value)}
         onChange={(event) => onChange("password", event.target.value)}
       />
-      {/* Pinned to the bottom of the card, so messages above never move it. */}
       <Button
         type="submit"
         disabled={pending || paused}
         aria-busy={pending}
-        className="mt-auto w-full"
+        className="mt-2 w-full"
       >
         {pending ? (
           <>
