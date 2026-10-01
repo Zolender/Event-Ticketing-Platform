@@ -1,0 +1,37 @@
+"use client";
+
+import { QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { useRouter } from "next/navigation";
+import { useEffect, type ReactNode } from "react";
+import { SessionEndedError } from "@/lib/fetch-json";
+import { getQueryClient } from "@/lib/query-client";
+
+export function Providers({ children }: { children: ReactNode }) {
+  const queryClient = getQueryClient();
+  const router = useRouter();
+
+  // Any query that finds the session ended sends the organiser back to sign-in, cache cleared.
+  useEffect(
+    () =>
+      queryClient.getQueryCache().subscribe((event) => {
+        if (
+          event.type === "updated" &&
+          event.action.type === "error" &&
+          event.action.error instanceof SessionEndedError
+        ) {
+          queryClient.clear();
+          router.replace("/sign-in?reason=session-ended");
+        }
+      }),
+    [queryClient, router],
+  );
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      {children}
+      {/* Left out of production builds by the package itself. */}
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+  );
+}
