@@ -3,7 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import type { MouseEvent } from "react";
+import { useLayoutEffect, useRef, type MouseEvent } from "react";
 import { Banner } from "@/components/ui/banner";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -29,6 +29,36 @@ export function EventsView() {
   const online = useOnline();
   const { data, error, isPending, isRefetchError, refetch, isFetching } =
     useQuery(myEventsQuery());
+  const tablistRef = useRef<HTMLElement>(null);
+  const indicatorRef = useRef<HTMLSpanElement>(null);
+  const placedRef = useRef(false);
+
+  // The underline slides from tab to tab: it follows the selected tab's box, and the box again
+  // when it changes size (counts arriving, the rail resizing the page). The first placement
+  // does not animate.
+  useLayoutEffect(() => {
+    const list = tablistRef.current;
+    const indicator = indicatorRef.current;
+    if (!list || !indicator) return;
+    const place = () => {
+      const selected = list.querySelector<HTMLElement>(
+        '[aria-selected="true"]',
+      );
+      if (!selected) return;
+      if (!placedRef.current) indicator.style.transition = "none";
+      indicator.style.width = `${selected.offsetWidth}px`;
+      indicator.style.transform = `translateX(${selected.offsetLeft}px)`;
+      if (!placedRef.current) {
+        void indicator.offsetWidth;
+        indicator.style.transition = "";
+        placedRef.current = true;
+      }
+    };
+    place();
+    const observer = new ResizeObserver(place);
+    observer.observe(list);
+    return () => observer.disconnect();
+  }, [tab, data]);
 
   // The tab lives in the URL; switching only rewrites it, the data is already here.
   function selectTab(event: MouseEvent<HTMLAnchorElement>, next: Tab) {
@@ -72,9 +102,10 @@ export function EventsView() {
 
       <div className="flex items-end gap-4 border-b border-outline-variant">
         <nav
+          ref={tablistRef}
           role="tablist"
           aria-label="Events"
-          className="flex min-w-0 flex-1 overflow-x-auto overflow-y-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="relative flex min-w-0 flex-1 overflow-x-auto overflow-y-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {tabs.map((value) => (
             <a
@@ -83,7 +114,7 @@ export function EventsView() {
               role="tab"
               aria-selected={value === tab}
               onClick={(event) => selectTab(event, value)}
-              className="-mb-px border-b-3 border-transparent px-4 py-3 text-title-sm whitespace-nowrap text-on-surface-variant hover:text-on-surface aria-selected:border-primary aria-selected:text-primary"
+              className="rounded-t-sm px-4 py-3 text-title-sm whitespace-nowrap text-on-surface-variant transition-colors duration-150 hover:bg-on-surface/8 hover:text-on-surface aria-selected:text-primary"
             >
               {tabLabels[value]}
               {groups && (
@@ -96,6 +127,11 @@ export function EventsView() {
               )}
             </a>
           ))}
+          <span
+            ref={indicatorRef}
+            aria-hidden="true"
+            className="pointer-events-none absolute bottom-0 left-0 h-[3px] rounded-t-full bg-primary transition-[transform,width] duration-250 ease-emphasized-decelerate motion-reduce:transition-none"
+          />
         </nav>
         <Link
           href="/events/new"
@@ -141,13 +177,15 @@ export function EventsView() {
             Check your connection, then try again.
           </EmptyState>
         ) : rows.length > 0 ? (
-          <ul className="flex flex-col gap-2">
-            {rows.map((event) => (
-              <EventRow key={event.id} event={event} />
+          // Keyed by tab, so a tab switch replays the rows rising in; a data refresh does not.
+          <ul key={tab} className="flex flex-col gap-2">
+            {rows.map((event, index) => (
+              <EventRow key={event.id} event={event} index={index} />
             ))}
           </ul>
         ) : (
           <EmptyTab
+            key={tab}
             tab={tab}
             hasDrafts={(groups?.drafts.length ?? 0) > 0}
             onSeeDrafts={selectTab}
@@ -167,7 +205,15 @@ export function EventsView() {
   );
 }
 
-function EmptyTab({
+function EmptyTab(props: Parameters<typeof EmptyTabContent>[0]) {
+  return (
+    <div className="flex flex-1 flex-col animate-rise motion-reduce:animate-fade">
+      <EmptyTabContent {...props} />
+    </div>
+  );
+}
+
+function EmptyTabContent({
   tab,
   hasDrafts,
   onSeeDrafts,

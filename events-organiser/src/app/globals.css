@@ -122,6 +122,24 @@
   --font-sans: var(--font-roboto);
 }
 @theme {
+  /* Material 3 motion: entering elements decelerate; small changes use the standard curve. */
+  --ease-emphasized-decelerate: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --animate-rise: rise 250ms var(--ease-emphasized-decelerate) both;
+  --animate-fade: fade 150ms linear both;
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+  }
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+  }
+
   /* Shape scale; "full" is Tailwind's rounded-full. */
   --radius-xs: 4px;
   --radius-sm: 8px;
