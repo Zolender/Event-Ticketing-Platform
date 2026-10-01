@@ -1,7 +1,9 @@
+import { PAGE } from "@/components/site-shell";
+
 export default function Home() {
   return (
-    <main>
-      <h1>Tiketi</h1>
-    </main>
+    <div className={`${PAGE} py-10`}>
+      <h1 className="text-display-sm">Tiketi</h1>
+    </div>
   );
 }

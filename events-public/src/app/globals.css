@@ -172,3 +172,59 @@
     @apply bg-surface text-body-lg text-on-surface;
   }
 }
+
+@theme {
+  /* Material 3 motion: entering elements decelerate; small changes use the standard curve. */
+  --ease-emphasized-decelerate: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --animate-rise: rise 250ms var(--ease-emphasized-decelerate) both;
+  --animate-fade: fade 150ms linear both;
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+  }
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+  }
+}
+
+@layer components {
+  /* A ticket's notches: half circles cut out where the perforation runs, --cut from the left. */
+  .ticket-notches {
+    --notch: 9px;
+    mask:
+      radial-gradient(circle var(--notch) at var(--cut) 0, #0000 98%, #000)
+        top / 100% 51% no-repeat,
+      radial-gradient(circle var(--notch) at var(--cut) 100%, #0000 98%, #000)
+        bottom / 100% 51% no-repeat;
+  }
+  /* The same ticket stood on its end (phones): notches on the sides, --cut from the top. */
+  .ticket-notches-y {
+    --notch: 12px;
+    mask:
+      radial-gradient(circle var(--notch) at 0 var(--cut), #0000 98%, #000)
+        left / 51% 100% no-repeat,
+      radial-gradient(circle var(--notch) at 100% var(--cut), #0000 98%, #000)
+        right / 51% 100% no-repeat;
+  }
+
+  /* Native dialogs: the panel rises in, the backdrop fades; both instant with reduced motion. */
+  dialog[open] {
+    animation: var(--animate-rise);
+  }
+  dialog[open]::backdrop {
+    background: color-mix(in srgb, var(--color-scrim) 32%, transparent);
+    animation: var(--animate-fade);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    dialog[open],
+    dialog[open]::backdrop {
+      animation: none;
+    }
+  }
+}
