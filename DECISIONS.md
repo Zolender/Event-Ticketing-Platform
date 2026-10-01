@@ -59,6 +59,14 @@ construction; each section says which. Where I weighed options, the ones I did n
   and public columns only. The alternative, letting anonymous visitors read published rows of the
   tables through policies, would expose every column of those rows. These guarantees are proven by
   pgTAP tests in `supabase/tests` (`supabase test db`), run as the real roles.
+- During construction: signing in goes through our own route handler, so the session cookie can
+  be `httpOnly` (nothing in the browser needs to read it, so a script injected by an XSS bug could
+  never steal it), `SameSite=Lax` and `Secure` in production. `proxy.ts` checks the session with
+  `getClaims()` (a fast local signature check); pages and route handlers use `getUser()`, which asks
+  Supabase Auth every time, so a revoked session is refused at once. The cross-site guard (Origin
+  check, JSON only) was written with this first write handler rather than later, because sign-in
+  has its own forgery attack: signing a victim into the attacker's account. A wrong password and
+  an unknown email get the same answer, so the form never reveals who has an account.
 
 ## The public site (before building)
 
@@ -80,10 +88,17 @@ construction; each section says which. Where I weighed options, the ones I did n
 
 ## Styling (decided during construction)
 
-- Material Design by Google, built by hand on Tailwind as Material 3: tokens from Google's Material
-  Theme Builder, Roboto, Material Symbols. MUI follows Material 2, and Google's own web components
-  are in maintenance mode and render only in the browser, which works against SEO.
-- Colour: coral, I think it might look a bit original, I could have gone with deep blue but it felt more generic, and violet was the defaullt colour(one may have thought I didn't bother thinking about choosing a colour)
+- Material Design by Google, built by hand on Tailwind as Material 3: tokens generated with
+  Google's Material colour library (the engine behind Theme Builder), Roboto, and Material icons
+  inlined as SVG. MUI follows Material 2, and Google's own web components are in maintenance mode
+  and render only in the browser, which works against SEO.
+- Colour: amber, at Material's medium contrast, in light and dark following the device. I started
+  with coral, then compared eight hues as real sign-in screens: deep blue felt generic, and violet
+  is Material's default colour (one may have thought I didn't bother choosing). A custom warning
+  colour, orange harmonised to amber, fills the role Material 3 does not define.
+- The product is called Tiketi (Swahili for "ticket"), so both apps read as one platform. Messages
+  follow one rule: errors block and say how to fix them, warnings inform without blocking, and info
+  explains why you are on a page. Field messages fit one line, banners at most two.
 
 ## Deployment (before building)
 
@@ -112,3 +127,5 @@ construction; each section says which. Where I weighed options, the ones I did n
 - A dedicated backend, and checkout (whose hard part is never overselling the last ticket).
 - Image uploads in a private storage bucket, a strict Content Security Policy, a stepped create
   form, event end times, an end-to-end test suite.
+- Our own sign-in rate limit, per address and per account. Every sign-in reaches Supabase from our
+  server, so Supabase's per-address limit (30 attempts in 5 minutes) sees one shared address.
