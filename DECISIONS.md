@@ -91,6 +91,26 @@ construction; each section says which. Where I weighed options, the ones I did n
   have tens of events; with hundreds, this becomes one query per tab with cursor pagination. Whether
   an event is past is decided on the server, so the server and browser always render the same.
 
+## Creating and editing events (during construction)
+
+- An event's time is what the organiser typed on the venue's wall clock. The form sends the date
+  and time as plain text with the venue; the server turns them into an instant with the venue's
+  zone, never the browser's or the server's. A time that does not exist (clocks jumping forward) is
+  refused with the next valid time suggested, rather than shifted silently; a time that happens
+  twice takes its first occurrence. Day.js does the zone arithmetic, and the rules are pinned by
+  unit tests on Node's own test runner (Kigali, London and New York around their clock changes, a
+  leap day, midnight crossings), run with the machine set to different zones.
+- An event and its tiers, and a venue created in the same form, are saved by one database function
+  in one transaction, so a refused save leaves nothing half written. It runs as the organiser, so
+  the access policies still apply. Not taken: several requests from the server, which can fail
+  halfway.
+- Prices are typed in the currency's own units ("8000" francs, "12.50" pounds) and stored in its
+  smallest unit, worked out on the digits rather than with floating point.
+- The form checks with the same schema as the server, field by field, the sign-in way: a message
+  appears when a field is left and goes as soon as it is fixed. A passed date only warns on a
+  draft, and blocks on a published event only when the date moves, as the database does, so an
+  event that has ended can still have a typo fixed.
+
 ## Styling (decided during construction)
 
 - Material Design by Google, built by hand on Tailwind as Material 3: tokens generated with
