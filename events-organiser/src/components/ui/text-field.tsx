@@ -50,7 +50,7 @@ export function TextField({
         />
         <label
           htmlFor={id}
-          className="pointer-events-none absolute top-0 left-3 -translate-y-1/2 bg-(--field-bg,var(--color-surface)) px-1 text-body-sm text-on-surface-variant transition-all duration-150 peer-[:placeholder-shown:not(:autofill):not(:focus)]:top-1/2 peer-[:placeholder-shown:not(:autofill):not(:focus)]:text-body-lg peer-focus:text-primary peer-aria-invalid:text-error motion-reduce:transition-none"
+          className="pointer-events-none absolute top-0 left-3 -translate-y-1/2 bg-(--field-bg,var(--color-surface)) px-1 text-body-sm text-on-surface-variant transition-[top,font-size,line-height,color] duration-150 peer-[:placeholder-shown:not(:autofill):not(:focus)]:top-1/2 peer-[:placeholder-shown:not(:autofill):not(:focus)]:text-body-lg peer-focus:text-primary peer-aria-invalid:text-error motion-reduce:transition-none"
         >
           {label}
         </label>

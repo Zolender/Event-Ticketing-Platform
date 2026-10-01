@@ -7,7 +7,8 @@ export const metadata: Metadata = { title: "Sign in" };
 const reasons: SignInReason[] = ["signed-out", "session-ended"];
 
 // Phones: the form sits on the page, top-aligned so the keyboard opening does not move it.
-// From sm: a centred card tall enough for a message and every field error, so none resize it.
+// From sm: a centred card with a fixed minimum height and its content centred inside, so
+// messages grow the content evenly while the card's outline stays put.
 export default async function SignInPage({
   searchParams,
 }: PageProps<"/sign-in">) {
@@ -24,7 +25,7 @@ export default async function SignInPage({
       </p>
       <section
         aria-labelledby="sign-in-title"
-        className="flex w-full max-w-sm flex-col gap-6 [--field-bg:var(--color-surface)] sm:min-h-112 sm:rounded-xl sm:bg-surface-container-low sm:p-6 sm:[--field-bg:var(--color-surface-container-low)]"
+        className="flex w-full max-w-sm flex-col gap-6 [--field-bg:var(--color-surface)] sm:min-h-104 sm:justify-center sm:rounded-xl sm:bg-surface-container-low sm:p-6 sm:[--field-bg:var(--color-surface-container-low)]"
       >
         <header className="flex flex-col gap-2">
           <h1 id="sign-in-title" className="text-headline-sm">
