@@ -44,3 +44,56 @@ export const InfoIcon = (props: IconProps) => (
     path="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"
   />
 );
+
+export const AddIcon = (props: IconProps) => (
+  <Icon {...props} path="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+);
+
+export const EventsIcon = (props: IconProps) => (
+  <Icon
+    {...props}
+    path="M22 10V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v4a2 2 0 1 1 0 4v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4a2 2 0 1 1 0-4z"
+  />
+);
+
+export const LiveIcon = (props: IconProps) => (
+  <Icon
+    {...props}
+    path="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm-9 4a9 9 0 0 1 2.64-6.36l1.42 1.42A7 7 0 0 0 5 12a7 7 0 0 0 2.06 4.94l-1.42 1.42A9 9 0 0 1 3 12zm16.36-6.36A9 9 0 0 1 21 12a9 9 0 0 1-2.64 6.36l-1.42-1.42A7 7 0 0 0 19 12a7 7 0 0 0-2.06-4.94l1.42-1.42z"
+  />
+);
+
+export const DraftIcon = (props: IconProps) => (
+  <Icon
+    {...props}
+    path="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+  />
+);
+
+export const HistoryIcon = (props: IconProps) => (
+  <Icon
+    {...props}
+    path="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.95 8.95 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"
+  />
+);
+
+export const BackIcon = (props: IconProps) => (
+  <Icon
+    {...props}
+    path="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"
+  />
+);
+
+export const PlaceIcon = (props: IconProps) => (
+  <Icon
+    {...props}
+    path="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"
+  />
+);
+
+export const ScheduleIcon = (props: IconProps) => (
+  <Icon
+    {...props}
+    path="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"
+  />
+);
