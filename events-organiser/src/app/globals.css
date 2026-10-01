@@ -140,6 +140,37 @@
     }
   }
 
+  /* Menus and pickers grow from the edge they open from (origin set where they are used). */
+  --animate-menu-in: menu-in 200ms var(--ease-emphasized-decelerate) both;
+  @keyframes menu-in {
+    from {
+      opacity: 0;
+      transform: scaleY(0.9);
+    }
+  }
+
+  /* Space opens before content appears, and closes before it leaves (grid rows 0fr to 1fr). */
+  --animate-grow-open: grow-open 260ms var(--ease-standard) both;
+  --animate-grow-close: grow-close 200ms var(--ease-standard) both;
+  @keyframes grow-open {
+    from {
+      grid-template-rows: 0fr;
+    }
+    to {
+      grid-template-rows: 1fr;
+    }
+  }
+  @keyframes grow-close {
+    from {
+      grid-template-rows: 1fr;
+      opacity: 1;
+    }
+    to {
+      grid-template-rows: 0fr;
+      opacity: 0;
+    }
+  }
+
   /* Shape scale; "full" is Tailwind's rounded-full. */
   --radius-xs: 4px;
   --radius-sm: 8px;
@@ -188,5 +219,22 @@
 @layer base {
   body {
     @apply bg-surface text-body-lg text-on-surface;
+  }
+}
+
+/* Native dialogs: the panel rises in, the backdrop fades; both instant with reduced motion. */
+@layer components {
+  dialog[open] {
+    animation: var(--animate-rise);
+  }
+  dialog[open]::backdrop {
+    background: color-mix(in srgb, var(--color-scrim) 32%, transparent);
+    animation: var(--animate-fade);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    dialog[open],
+    dialog[open]::backdrop {
+      animation: none;
+    }
   }
 }

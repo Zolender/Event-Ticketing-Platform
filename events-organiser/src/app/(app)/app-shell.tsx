@@ -1,14 +1,25 @@
 "use client";
 
 import Link from "next/link";
-import { useState, type ReactNode } from "react";
-import { EventsIcon, MenuIcon } from "@/components/ui/icons";
+import { usePathname } from "next/navigation";
+import { useState, type ComponentType, type ReactNode } from "react";
+import { EventsIcon, MenuIcon, PlaceIcon } from "@/components/ui/icons";
 import { Logo } from "@/components/ui/logo";
+import { SnackbarHost } from "@/components/ui/snackbar";
 import { AccountMenu } from "@/features/auth/account-menu";
 
 export type RailState = "auto" | "expanded" | "collapsed";
 
 const RAIL_COOKIE = "rail";
+
+const sections: {
+  href: string;
+  label: string;
+  icon: ComponentType<{ className?: string }>;
+}[] = [
+  { href: "/events", label: "Events", icon: EventsIcon },
+  { href: "/venues", label: "Venues", icon: PlaceIcon },
+];
 const ONE_YEAR = 60 * 60 * 24 * 365;
 
 type AppShellProps = {
@@ -25,6 +36,9 @@ export function AppShell({
   children,
 }: AppShellProps) {
   const [rail, setRail] = useState<RailState>(initialRail);
+  const pathname = usePathname();
+  const isCurrent = (href: string) =>
+    pathname === href || pathname.startsWith(`${href}/`);
 
   function toggleRail() {
     const expandedNow =
@@ -68,9 +82,16 @@ export function AppShell({
           aria-label="Sections"
           className="hidden w-20 shrink-0 flex-col gap-1 border-r border-outline-variant bg-surface-container-low p-3 transition-[width] duration-250 ease-standard motion-reduce:transition-none group-data-[rail=expanded]/shell:w-58 sm:flex xl:group-data-[rail=auto]/shell:w-58"
         >
-          <RailLink href="/events" label="Events" current>
-            <EventsIcon />
-          </RailLink>
+          {sections.map(({ href, label, icon: Icon }) => (
+            <RailLink
+              key={href}
+              href={href}
+              label={label}
+              current={isCurrent(href)}
+            >
+              <Icon />
+            </RailLink>
+          ))}
         </nav>
         <main className="mx-auto flex w-full max-w-5xl min-w-0 flex-1 flex-col px-4 py-6 pb-24 sm:px-6 sm:pb-8">
           {children}
@@ -81,17 +102,21 @@ export function AppShell({
         aria-label="Sections"
         className="fixed inset-x-0 bottom-0 z-10 flex h-16 items-center justify-around bg-surface-container sm:hidden"
       >
-        <Link
-          href="/events"
-          aria-current="page"
-          className="flex flex-col items-center gap-1 text-label-md"
-        >
-          <span className="grid h-8 w-16 place-items-center rounded-full bg-secondary-container text-on-secondary-container">
-            <EventsIcon />
-          </span>
-          Events
-        </Link>
+        {sections.map(({ href, label, icon: Icon }) => (
+          <Link
+            key={href}
+            href={href}
+            aria-current={isCurrent(href) ? "page" : undefined}
+            className="group flex flex-col items-center gap-1 text-label-md text-on-surface-variant aria-[current=page]:text-on-surface"
+          >
+            <span className="grid h-8 w-16 place-items-center rounded-full group-aria-[current=page]:bg-secondary-container group-aria-[current=page]:text-on-secondary-container">
+              <Icon />
+            </span>
+            {label}
+          </Link>
+        ))}
       </nav>
+      <SnackbarHost />
     </div>
   );
 }

@@ -2,21 +2,25 @@
 // browser (the visitor's zone) produce the same text.
 const LOCALE = "en-GB";
 
-/** "Tue 13 Oct, 19:30", with the year added when it is not the current one. */
+/** "Tue 13 Oct, 19:30", with the year added when it is not the current one: "Sun 28 Mar 2027, 19:30". */
 export function formatEventDate(iso: string, timeZone: string) {
   const date = new Date(iso);
   const year = (d: Date) =>
     new Intl.DateTimeFormat(LOCALE, { timeZone, year: "numeric" }).format(d);
-  return new Intl.DateTimeFormat(LOCALE, {
+  const parts = new Intl.DateTimeFormat(LOCALE, {
     timeZone,
     weekday: "short",
     day: "numeric",
     month: "short",
-    year: year(date) === year(new Date()) ? undefined : "numeric",
+    year: "numeric",
     hour: "2-digit",
     minute: "2-digit",
     hourCycle: "h23",
-  }).format(date);
+  }).formatToParts(date);
+  const part = (type: Intl.DateTimeFormatPartTypes) =>
+    parts.find((p) => p.type === type)?.value ?? "";
+  const shownYear = year(date) === year(new Date()) ? "" : ` ${part("year")}`;
+  return `${part("weekday")} ${part("day")} ${part("month")}${shownYear}, ${part("hour")}:${part("minute")}`;
 }
 
 /** "Africa/Kigali" becomes "Kigali time". */
