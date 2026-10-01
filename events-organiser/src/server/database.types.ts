@@ -237,6 +237,17 @@ export type Database = {
         };
         Returns: string;
       };
+      update_venue: {
+        Args: {
+          p_address: string;
+          p_city: string;
+          p_country: string;
+          p_name: string;
+          p_timezone: string;
+          p_venue_id: string;
+        };
+        Returns: undefined;
+      };
     };
     Enums: {
       event_status: "draft" | "published";
