@@ -4,7 +4,11 @@ import { SignInForm, type SignInReason } from "@/features/auth/sign-in-form";
 
 export const metadata: Metadata = { title: "Sign in" };
 
-const reasons: SignInReason[] = ["signed-out", "session-ended"];
+const reasons: SignInReason[] = [
+  "signed-out",
+  "signed-out-everywhere",
+  "session-ended",
+];
 
 // Phones: the form sits on the page, top-aligned so the keyboard opening does not move it.
 // From sm: a centred card with a fixed minimum height and its content centred inside, so
