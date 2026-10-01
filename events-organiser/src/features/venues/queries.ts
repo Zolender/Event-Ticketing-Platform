@@ -1,6 +1,6 @@
 import { queryOptions } from "@tanstack/react-query";
 import { fetchJson } from "@/lib/fetch-json";
-import type { Venue } from "./types";
+import type { VenueWithEvents } from "./types";
 
 export const venueKeys = {
   all: ["venues"] as const,
@@ -10,5 +10,5 @@ export const venueKeys = {
 export const myVenuesQuery = () =>
   queryOptions({
     queryKey: venueKeys.lists(),
-    queryFn: () => fetchJson<Venue[]>("/api/venues"),
+    queryFn: () => fetchJson<VenueWithEvents[]>("/api/venues"),
   });
