@@ -221,6 +221,24 @@ construction; each section says which. Where I weighed options, the ones I did n
   target, the secret key and the passwords from environment variables, so no credential lives in
   this public repository.
 
+- During construction: cached public pages are refreshed by the database itself. A trigger on
+  events calls the public site through Postgres's `pg_net` whenever a change involves a published
+  event, and only once the change is committed; tier, venue and organiser changes reach it through
+  the touch they already make on their events. The address and shared secret live in Supabase
+  Vault, so they are set per environment and never in this repository, and the trigger is in a
+  migration a reviewer can read. I considered the dashboard's webhook screen (quicker, but
+  invisible in the repository). The route checks the secret in constant time and expires every
+  cached page, since one change can show on several pages; the next visit makes each again.
+  Tested on a production build: a cached page answered 404 on the very next visit after its event
+  was unpublished.
+- During construction: a small set of security headers in both apps (no framing of the organiser
+  app at all, no content sniffing, a strict referrer, no camera, microphone or location). A full
+  Content Security Policy is left out for now: it needs a nonce per request, which would make
+  every cached page dynamic.
+- During construction: a daily Vercel cron reads one row of the public view, because Supabase's
+  free plan pauses a project after a week without activity and a reviewer should never meet a
+  paused database.
+
 ## With more time
 
 - A dedicated backend, and checkout (whose hard part is never overselling the last ticket).
