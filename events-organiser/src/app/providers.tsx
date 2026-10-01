@@ -11,21 +11,34 @@ export function Providers({ children }: { children: ReactNode }) {
   const queryClient = getQueryClient();
   const router = useRouter();
 
-  // Any query that finds the session ended sends the organiser back to sign-in, cache cleared.
-  useEffect(
-    () =>
-      queryClient.getQueryCache().subscribe((event) => {
-        if (
-          event.type === "updated" &&
-          event.action.type === "error" &&
-          event.action.error instanceof SessionEndedError
-        ) {
-          queryClient.clear();
-          router.replace("/sign-in?reason=session-ended");
-        }
-      }),
-    [queryClient, router],
-  );
+  // Any query or write that finds the session ended sends the organiser back to sign-in, cache
+  // cleared.
+  useEffect(() => {
+    const ended = () => {
+      queryClient.clear();
+      router.replace("/sign-in?reason=session-ended");
+    };
+    const stopQueries = queryClient.getQueryCache().subscribe((event) => {
+      if (
+        event.type === "updated" &&
+        event.action.type === "error" &&
+        event.action.error instanceof SessionEndedError
+      )
+        ended();
+    });
+    const stopMutations = queryClient.getMutationCache().subscribe((event) => {
+      if (
+        event.type === "updated" &&
+        event.action.type === "error" &&
+        event.action.error instanceof SessionEndedError
+      )
+        ended();
+    });
+    return () => {
+      stopQueries();
+      stopMutations();
+    };
+  }, [queryClient, router]);
 
   return (
     <QueryClientProvider client={queryClient}>

@@ -49,7 +49,7 @@ export async function getMyEvent(
   const { data, error } = await supabase
     .from("events")
     .select(
-      "id, title, status, starts_at, currency, description, first_published_at, venues(name, address, city, country, timezone), ticket_tiers(id, name, price, capacity, position)",
+      "id, title, status, starts_at, currency, description, first_published_at, venues(id, name, address, city, country, timezone), ticket_tiers(id, name, price, capacity, position)",
     )
     .eq("id", id)
     .eq("organiser_id", organiser.id)
