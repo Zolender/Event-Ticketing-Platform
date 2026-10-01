@@ -82,6 +82,12 @@ construction; each section says which. Where I weighed options, the ones I did n
 - Each app folder is linked to its own Vercel project with the CLI and deployed from there.
 - Two Supabase environments: a local stack for building and testing, the hosted project for the
   deployed apps.
+- During construction: both apps pin pnpm 12 in `packageManager`. Vercel picks pnpm's version from
+  the lockfile (9 or 10) unless told otherwise, so each project sets
+  `ENABLE_EXPERIMENTAL_COREPACK=1`, which makes it use the pinned version: the same pnpm locally and
+  on Vercel. The projects are named after their folders, with `zolender-` added to the
+  `.vercel.app` addresses because the plain names were taken. Deploys go through the CLI only;
+  the Git integration is deliberately not connected.
 
 ## With more time
 
