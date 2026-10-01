@@ -10,9 +10,9 @@ const reasons: SignInReason[] = [
   "session-ended",
 ];
 
-// Phones: the form sits on the page, top-aligned so the keyboard opening does not move it.
-// From sm: a centred card with a fixed minimum height and its content centred inside, so
-// messages grow the content evenly while the card's outline stays put.
+// Centred on every screen (phone keyboards cover the page rather than resize it). The form keeps
+// a fixed minimum height with its content centred inside, so messages grow it evenly instead of
+// moving it; from sm it is also drawn as a card.
 export default async function SignInPage({
   searchParams,
 }: PageProps<"/sign-in">) {
@@ -20,9 +20,9 @@ export default async function SignInPage({
   const known = reasons.find((value) => value === reason);
 
   return (
-    <main className="flex min-h-dvh flex-col items-center gap-6 px-4 pt-12 pb-8 sm:justify-center sm:pt-8">
+    <main className="flex min-h-dvh flex-col items-center justify-center gap-6 px-4 py-8">
       {/* The brand line carries weight of its own: the mark at 32px, the name at title size. */}
-      <p className="flex items-center gap-3 self-start sm:self-center">
+      <p className="flex items-center gap-3">
         <Logo className="size-8" />
         <span className="text-title-lg text-on-surface">
           Tiketi{" "}
@@ -33,7 +33,7 @@ export default async function SignInPage({
       </p>
       <section
         aria-labelledby="sign-in-title"
-        className="flex w-full max-w-sm flex-col gap-6 [--field-bg:var(--color-surface)] sm:min-h-104 sm:justify-center sm:rounded-xl sm:bg-surface-container-low sm:p-6 sm:[--field-bg:var(--color-surface-container-low)]"
+        className="flex w-full max-w-sm flex-col gap-6 [--field-bg:var(--color-surface)] min-h-88 justify-center sm:min-h-104 sm:rounded-xl sm:bg-surface-container-low sm:p-6 sm:[--field-bg:var(--color-surface-container-low)]"
       >
         <header className="flex flex-col gap-2">
           <h1 id="sign-in-title" className="text-headline-sm">
