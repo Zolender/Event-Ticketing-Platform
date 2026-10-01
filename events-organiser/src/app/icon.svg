@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <style>
-    .tile { fill: #423500 }
-    .ticket { fill: #f6db81 }
-    .tear { stroke: #423500 }
+    .tile { fill: #00236f }
+    .ticket { fill: #b6c4ff }
+    .tear { stroke: #00236f }
     @media (prefers-color-scheme: dark) {
-      .tile { fill: #f6db81 }
-      .ticket { fill: #423500 }
-      .tear { stroke: #f6db81 }
+      .tile { fill: #b6c4ff }
+      .ticket { fill: #00236f }
+      .tear { stroke: #b6c4ff }
     }
   </style>
   <rect class="tile" width="32" height="32" rx="8" />
