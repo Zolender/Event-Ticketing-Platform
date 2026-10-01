@@ -6,6 +6,9 @@ const variants = {
     "bg-secondary-container text-on-secondary-container before:bg-on-secondary-container",
   outlined: "border border-outline text-primary before:bg-primary",
   text: "text-primary before:bg-primary",
+  /** On a primary-container band, where the usual filled button would vanish. */
+  "on-container":
+    "bg-on-primary-container text-primary-container before:bg-primary-container",
 };
 
 export type ButtonVariant = keyof typeof variants;

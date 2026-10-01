@@ -13,3 +13,8 @@ export function supabaseEnv() {
 export function siteUrl() {
   return new URL(process.env.SITE_URL ?? "http://localhost:3000");
 }
+
+/** The organiser app, for the home page's sign-in link. A link only: the apps never call each other. */
+export function organiserUrl() {
+  return process.env.ORGANISER_URL ?? "http://localhost:3001";
+}
