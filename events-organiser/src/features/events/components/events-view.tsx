@@ -66,26 +66,11 @@ export function EventsView() {
     window.history.pushState(null, "", `?tab=${next}`);
   }
 
-  if (data && data.length === 0) {
-    return (
-      <EmptyState
-        icon={EventsIcon}
-        title="Create your first event"
-        action={
-          <Link href="/events/new" className={`inline-flex ${newEventClasses}`}>
-            <AddIcon />
-            New event
-          </Link>
-        }
-      >
-        New events start as drafts that only you can see. Publish one when it is
-        ready and it appears on the public site.
-      </EmptyState>
-    );
-  }
-
   const groups = data ? groupByTab(data) : null;
   const rows = groups?.[tab] ?? [];
+  // A new organiser keeps the tabs, so the page reads as usual, and the first-event message takes
+  // the panel; its button is then the only "New event" on screen.
+  const noEvents = data?.length === 0;
 
   return (
     <div className="flex flex-1 flex-col gap-4">
@@ -135,7 +120,7 @@ export function EventsView() {
         </nav>
         <Link
           href="/events/new"
-          className={`mb-2 hidden sm:inline-flex ${newEventClasses}`}
+          className={`mb-2 hidden ${noEvents ? "" : "sm:inline-flex"} ${newEventClasses}`}
         >
           <AddIcon />
           New event
@@ -176,6 +161,28 @@ export function EventsView() {
           >
             Check your connection, then try again.
           </EmptyState>
+        ) : noEvents ? (
+          <div
+            key="first"
+            className="flex flex-1 animate-rise flex-col motion-reduce:animate-fade"
+          >
+            <EmptyState
+              icon={EventsIcon}
+              title="Create your first event"
+              action={
+                <Link
+                  href="/events/new"
+                  className={`inline-flex ${newEventClasses}`}
+                >
+                  <AddIcon />
+                  New event
+                </Link>
+              }
+            >
+              New events start as drafts that only you can see. Publish one when
+              it is ready and it appears on the public site.
+            </EmptyState>
+          </div>
         ) : rows.length > 0 ? (
           // Keyed by tab, so a tab switch replays the rows rising in; a data refresh does not.
           <ul key={tab} className="flex flex-col gap-2">
@@ -194,13 +201,15 @@ export function EventsView() {
       </div>
 
       {/* Phones: the main action floats under the thumb. */}
-      <Link
-        href="/events/new"
-        className="fixed right-4 bottom-20 inline-flex h-14 items-center gap-2 rounded-lg bg-primary px-5 text-label-lg text-on-primary shadow-lg sm:hidden"
-      >
-        <AddIcon />
-        New event
-      </Link>
+      {!noEvents && (
+        <Link
+          href="/events/new"
+          className="fixed right-4 bottom-20 inline-flex h-14 items-center gap-2 rounded-lg bg-primary px-5 text-label-lg text-on-primary shadow-lg sm:hidden"
+        >
+          <AddIcon />
+          New event
+        </Link>
+      )}
     </div>
   );
 }
