@@ -4,7 +4,11 @@ import { SignInForm, type SignInReason } from "@/features/auth/sign-in-form";
 
 export const metadata: Metadata = { title: "Sign in" };
 
-const reasons: SignInReason[] = ["signed-out", "session-ended"];
+const reasons: SignInReason[] = [
+  "signed-out",
+  "signed-out-everywhere",
+  "session-ended",
+];
 
 // Phones: the form sits on the page, top-aligned so the keyboard opening does not move it.
 // From sm: a centred card with a fixed minimum height and its content centred inside, so
@@ -17,10 +21,14 @@ export default async function SignInPage({
 
   return (
     <main className="flex min-h-dvh flex-col items-center gap-6 px-4 pt-12 pb-8 sm:justify-center sm:pt-8">
-      <p className="flex items-center gap-2 self-start text-title-sm text-on-surface-variant sm:self-center">
-        <Logo />
-        <span>
-          <span className="text-on-surface">Tiketi</span> for organisers
+      {/* The brand line carries weight of its own: the mark at 32px, the name at title size. */}
+      <p className="flex items-center gap-3 self-start sm:self-center">
+        <Logo className="size-8" />
+        <span className="text-title-lg text-on-surface">
+          Tiketi{" "}
+          <span className="text-body-lg text-on-surface-variant">
+            for organisers
+          </span>
         </span>
       </p>
       <section

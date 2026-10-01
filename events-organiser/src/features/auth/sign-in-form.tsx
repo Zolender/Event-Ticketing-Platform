@@ -36,6 +36,11 @@ const notices = {
     title: "You're signed out",
     text: "Sign in again any time.",
   },
+  "signed-out-everywhere": {
+    kind: "info",
+    title: "You're signed out everywhere",
+    text: "Every session has ended. Sign in again here.",
+  },
   "session-ended": {
     kind: "info",
     title: "Your session has ended",
@@ -43,7 +48,8 @@ const notices = {
   },
 } satisfies Record<string, Notice>;
 
-export type SignInReason = "signed-out" | "session-ended";
+export type SignInReason =
+  "signed-out" | "signed-out-everywhere" | "session-ended";
 
 function fieldError(field: Field, value: string) {
   const result = signInSchema.shape[field].safeParse(value);

@@ -3,7 +3,13 @@ import { redirect } from "next/navigation";
 import { cache } from "react";
 import { createSupabaseServerClient } from "./supabase";
 
-export type Organiser = { id: string; email: string; displayName: string };
+export type Organiser = {
+  id: string;
+  email: string;
+  displayName: string;
+  /** When this account last signed in, from Supabase Auth. */
+  lastSignInAt: string | null;
+};
 
 /**
  * The signed-in organiser, or null. `getUser()` asks Supabase Auth itself, so a session revoked
@@ -26,6 +32,7 @@ export const getOrganiser = cache(async (): Promise<Organiser | null> => {
     id: user.id,
     email: user.email ?? "",
     displayName: data?.display_name ?? "Organiser",
+    lastSignInAt: user.last_sign_in_at ?? null,
   };
 });
 

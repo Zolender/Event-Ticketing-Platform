@@ -124,6 +124,23 @@ construction; each section says which. Where I weighed options, the ones I did n
   refuses otherwise; the page says why instead of failing. Undo creates it again as it was, which
   is the same venue, since nothing pointed to it.
 
+## Account (during construction)
+
+- The account page shows the organiser name with a preview of how the public sees it, since it
+  appears on every published event; renaming touches the organiser's events so their public pages
+  refresh, as tier and venue changes do. The email is read-only: there is no mail service to
+  confirm a new address.
+- Changing the password checks the current one first, so someone at a computer left signed in
+  cannot lock the owner out. The check signs in on a separate client that keeps no cookies and
+  ends that extra session at once. Supabase leaves other sessions open after a password change, so
+  the page says so and offers "Sign out everywhere" next to it.
+- Theme and contrast are settings, kept in cookies so the server renders the right colours on the
+  first paint. High contrast is Material's own contrast level for the same navy scheme, light and
+  dark, rather than a separate palette.
+- A session ended elsewhere keeps a valid-looking token until it expires. On the sign-in page the
+  proxy asks Supabase Auth itself and clears an ended session's cookies; before, the sign-in page
+  and the pages sent each other back and forth.
+
 ## Styling (decided during construction)
 
 - Material Design by Google, built by hand on Tailwind as Material 3: tokens generated with

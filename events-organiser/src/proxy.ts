@@ -42,8 +42,16 @@ export async function proxy(request: NextRequest) {
     const target = hadSession ? "/sign-in?reason=session-ended" : "/sign-in";
     return redirectKeepingCookies(request, target, response);
   }
-  if (signedIn && onSignIn)
-    return redirectKeepingCookies(request, "/events", response);
+  if (signedIn && onSignIn) {
+    // A session ended elsewhere (signed out everywhere) keeps a valid-looking token until it
+    // expires, and the pages would send it back here in a loop. On the sign-in page only, ask
+    // Auth itself; if the session has ended, clear its cookies and show the page.
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (user) return redirectKeepingCookies(request, "/events", response);
+    await supabase.auth.signOut({ scope: "local" });
+  }
   return response;
 }
 
