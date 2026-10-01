@@ -29,8 +29,10 @@ export type EventDraft = {
   tiers: TierDraft[];
 };
 
+// Tiers added in the browser count up here. Saved tiers use their id instead: this counter also
+// runs on the server, across requests, so its numbers would not match the browser's.
 let keys = 0;
-export const newTierKey = () => `tier-${++keys}`;
+export const newTierKey = () => `tier-new-${++keys}`;
 
 export function emptyDraft(venues: Venue[]): EventDraft {
   return {
@@ -59,7 +61,7 @@ export function draftFromEvent(event: EventDetail): EventDraft {
     time,
     currency: event.currency as Currency,
     tiers: event.tiers.map((tier) => ({
-      key: newTierKey(),
+      key: `tier-${tier.id}`,
       id: tier.id,
       name: tier.name,
       price: priceInput(tier.price, event.currency),
