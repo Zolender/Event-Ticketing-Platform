@@ -1,20 +1,22 @@
 import type { InputHTMLAttributes, ReactNode, Ref } from "react";
-import { ErrorIcon, WarningIcon } from "./icons";
+import {
+  FieldMessage,
+  messageIdFor,
+  type FieldMessageProps,
+} from "./field-message";
+import { ErrorIcon } from "./icons";
 
 type TextFieldProps = Omit<
   InputHTMLAttributes<HTMLInputElement>,
   "placeholder"
-> & {
-  id: string;
-  label: string;
-  /** Blocks: the field is invalid. Keep it to one line. */
-  error?: string;
-  /** Informs only: the field stays valid (e.g. Caps Lock). Keep it to one line. */
-  warning?: string;
-  /** A button or icon at the end of the field (48px square). */
-  trailing?: ReactNode;
-  ref?: Ref<HTMLInputElement>;
-};
+> &
+  FieldMessageProps & {
+    id: string;
+    label: string;
+    /** A button or icon at the end of the field (48px square). */
+    trailing?: ReactNode;
+    ref?: Ref<HTMLInputElement>;
+  };
 
 /**
  * Material 3 outlined text field. The label floats in the border, and sits inside only while the
@@ -25,13 +27,14 @@ export function TextField({
   label,
   error,
   warning,
+  supporting,
+  counter,
   trailing,
   className = "",
   ref,
   ...props
 }: TextFieldProps) {
-  const message = error ?? warning;
-  const messageId = message ? `${id}-message` : undefined;
+  const messageId = messageIdFor(id, { error, warning, supporting });
   const endSlot =
     trailing ?? (error ? <ErrorIcon className="size-6 text-error" /> : null);
 
@@ -60,19 +63,13 @@ export function TextField({
           </div>
         )}
       </div>
-      {message && (
-        <p
-          id={messageId}
-          className={`flex items-start gap-1.5 px-4 text-body-sm ${error ? "text-error" : "text-warning"}`}
-        >
-          {error ? (
-            <ErrorIcon className="size-4 shrink-0" />
-          ) : (
-            <WarningIcon className="size-4 shrink-0" />
-          )}
-          <span>{message}</span>
-        </p>
-      )}
+      <FieldMessage
+        id={`${id}-message`}
+        error={error}
+        warning={warning}
+        supporting={supporting}
+        counter={counter}
+      />
     </div>
   );
 }

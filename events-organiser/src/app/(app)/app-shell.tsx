@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, type ReactNode } from "react";
 import { EventsIcon, MenuIcon } from "@/components/ui/icons";
 import { Logo } from "@/components/ui/logo";
+import { SnackbarHost } from "@/components/ui/snackbar";
 import { AccountMenu } from "@/features/auth/account-menu";
 
 export type RailState = "auto" | "expanded" | "collapsed";
@@ -92,6 +93,7 @@ export function AppShell({
           Events
         </Link>
       </nav>
+      <SnackbarHost />
     </div>
   );
 }
