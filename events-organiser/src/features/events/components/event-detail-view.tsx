@@ -91,7 +91,10 @@ export function EventDetailView({ id }: { id: string }) {
     }
     setRefusal(null);
     setPublished.mutate(true, {
-      onSuccess: () => showSnackbar("Published. It's now on the public site."),
+      onSuccess: () =>
+        showSnackbar("Published. It's now on the public site.", {
+          kind: "live",
+        }),
       onError: fail,
     });
   }
@@ -101,7 +104,9 @@ export function EventDetailView({ id }: { id: string }) {
     setRefusal(null);
     setPublished.mutate(false, {
       onSuccess: () =>
-        showSnackbar("Unpublished. It's hidden from the public site."),
+        showSnackbar("Unpublished. It's hidden from the public site.", {
+          kind: "hidden",
+        }),
       onError: fail,
     });
   }
@@ -110,7 +115,7 @@ export function EventDetailView({ id }: { id: string }) {
     setConfirm(null);
     remove.mutate(undefined, {
       onSuccess: () => {
-        showSnackbar("Draft deleted.");
+        showSnackbar("Draft deleted.", { kind: "deleted" });
         router.replace("/events?tab=drafts");
       },
       onError: fail,

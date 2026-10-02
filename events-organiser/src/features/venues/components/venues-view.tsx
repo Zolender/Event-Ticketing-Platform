@@ -315,23 +315,31 @@ function VenueRow({
     remove.mutate(venue.id, {
       onSuccess: () =>
         showSnackbar("Venue deleted.", {
-          label: "Undo",
-          onAction: () =>
-            restoreVenue(queryClient, {
-              name,
-              address,
-              city,
-              country,
-              timezone,
-            })
-              .then(() => showSnackbar("Venue restored."))
-              .catch(() => showSnackbar("Couldn't restore the venue.")),
+          kind: "deleted",
+          action: {
+            label: "Undo",
+            onAction: () =>
+              restoreVenue(queryClient, {
+                name,
+                address,
+                city,
+                country,
+                timezone,
+              })
+                .then(() => showSnackbar("Venue restored."))
+                .catch(() =>
+                  showSnackbar("Couldn't restore the venue.", {
+                    kind: "error",
+                  }),
+                ),
+          },
         }),
       onError: (error) =>
         showSnackbar(
           error instanceof ApiError && error.code === "venue_in_use"
             ? "Events use this venue now, so it was kept."
             : "Couldn't delete the venue. Try again.",
+          { kind: "error" },
         ),
     });
   }

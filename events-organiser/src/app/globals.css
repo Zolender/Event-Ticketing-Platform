@@ -399,6 +399,16 @@
   }
 }
 
+/* A ticket's notches: a half circle cut from each side at mid height, as on the public site's
+   event cards. A mask, so the page shows through; a shadow goes on a wrapper (drop-shadow). */
+@utility ticket-side-notches {
+  mask:
+    radial-gradient(circle var(--notch, 7px) at 0 50%, #0000 98%, #000) left /
+      51% 100% no-repeat,
+    radial-gradient(circle var(--notch, 7px) at 100% 50%, #0000 98%, #000)
+      right / 51% 100% no-repeat;
+}
+
 /* Native dialogs: the panel rises in, the backdrop fades; both instant with reduced motion. */
 @layer components {
   dialog[open] {
