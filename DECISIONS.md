@@ -228,7 +228,8 @@ construction; each section says which. Where I weighed options, the ones I did n
   Vault, so they are set per environment and never in this repository, and the trigger is in a
   migration a reviewer can read. I considered the dashboard's webhook screen (quicker, but
   invisible in the repository). The route checks the secret in constant time and expires every
-  cached page, since one change can show on several pages; the next visit makes each again.
+  cached page and the sitemap, since one change can show on several pages; the next visit makes
+  each again.
   Tested on a production build: a cached page answered 404 on the very next visit after its event
   was unpublished.
 - During construction: a small set of security headers in both apps (no framing of the organiser
