@@ -2,13 +2,14 @@ import Link from "next/link";
 import { buttonClass } from "@/components/ui/button";
 import { Logo } from "@/components/ui/logo";
 import { HeaderSearch } from "@/features/search/header-search";
+import { StickyHeader } from "./sticky-header";
 
 /** The width every page's content lines up to, with the side gutters. */
 export const PAGE = "mx-auto w-full max-w-310 px-4 sm:px-8";
 
 export function SiteHeader() {
   return (
-    <header className="border-b border-outline-variant bg-surface">
+    <StickyHeader>
       <div className={`${PAGE} flex h-16 items-center gap-2 sm:gap-4`}>
         <Link
           href="/"
@@ -22,7 +23,7 @@ export function SiteHeader() {
           Events
         </Link>
       </div>
-    </header>
+    </StickyHeader>
   );
 }
 

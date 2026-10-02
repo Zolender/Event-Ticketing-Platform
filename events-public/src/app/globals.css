@@ -168,6 +168,11 @@
 }
 
 @layer base {
+  /* Under the sticky header: a link reached by keyboard scrolls into view below it, not behind. */
+  html {
+    scroll-padding-top: 5rem;
+  }
+
   body {
     @apply bg-surface text-body-lg text-on-surface;
   }

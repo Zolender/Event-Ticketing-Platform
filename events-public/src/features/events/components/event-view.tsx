@@ -170,7 +170,7 @@ export function EventView({
         {!event.past && event.tiers.length > 0 && (
           <aside
             aria-labelledby="tickets"
-            className="order-first flex flex-col gap-3 rounded-md bg-surface-container-low p-4 lg:sticky lg:top-4 lg:order-none"
+            className="order-first flex flex-col gap-3 rounded-md bg-surface-container-low p-4 lg:sticky lg:top-20 lg:order-none"
           >
             <h2 id="tickets" className="text-title-md">
               Tickets
