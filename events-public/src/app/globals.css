@@ -215,6 +215,16 @@
   }
 }
 
+/* A ticket's side notches: a half circle cut from each side at mid height (the snackbar). A mask,
+   so the page shows through; a shadow goes on a wrapper (drop-shadow). */
+@utility ticket-side-notches {
+  mask:
+    radial-gradient(circle var(--notch, 7px) at 0 50%, #0000 98%, #000) left /
+      51% 100% no-repeat,
+    radial-gradient(circle var(--notch, 7px) at 100% 50%, #0000 98%, #000)
+      right / 51% 100% no-repeat;
+}
+
 /* A ticket's notches: half circles cut out where the perforation runs, --cut from the left. */
 @utility ticket-notches {
   mask:
