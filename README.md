@@ -98,7 +98,3 @@ public site's cached pages (the secret never goes in the repository):
 select vault.create_secret('https://<public site>/api/revalidate', 'public_site_refresh_url');
 select vault.create_secret('<REVALIDATE_SECRET>', 'public_site_refresh_secret');
 ```
-
-## Signing in
-
-Organiser credentials were sent with the submission.
