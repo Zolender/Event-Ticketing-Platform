@@ -137,26 +137,42 @@ export async function moreEvents(exceptPublicId: string, limit = 3) {
   return ((data ?? []) as Row[]).map(toCard);
 }
 
-/** How many upcoming events fall in each month, in the order they come, months in each venue's zone. */
-export async function upcomingMonths() {
+export type UpcomingSummary = {
+  events: number;
+  venues: number;
+  /** Months in the order they come, each in its venues' own zone. */
+  months: { label: string; count: number }[];
+  /** Cities with the most events first, each with a zone for its local time. */
+  cities: { name: string; timeZone: string; count: number }[];
+};
+
+/** The home page's numbers: how many events, venues and cities are coming up, by month and city. */
+export async function upcomingSummary(): Promise<UpcomingSummary> {
   const { data, error } = await createSupabaseClient()
     .from("published_events")
-    .select("starts_at, venue_timezone")
+    .select("starts_at, venue_timezone, venue_name, venue_city")
     .gt("starts_at", new Date().toISOString())
     .order("starts_at", { ascending: true })
     .limit(1000);
   if (error) throw error;
-  const months: { label: string; count: number }[] = [];
-  for (const row of (data ?? []) as Row[]) {
-    const label = monthLabel(
-      text(row, "starts_at"),
-      text(row, "venue_timezone"),
-    );
-    const known = months.find((month) => month.label === label);
-    if (known) known.count += 1;
+  const rows = (data ?? []) as Row[];
+  const months: UpcomingSummary["months"] = [];
+  const cities: UpcomingSummary["cities"] = [];
+  const venues = new Set<string>();
+  for (const row of rows) {
+    const timeZone = text(row, "venue_timezone");
+    const label = monthLabel(text(row, "starts_at"), timeZone);
+    const month = months.find((known) => known.label === label);
+    if (month) month.count += 1;
     else months.push({ label, count: 1 });
+    const name = text(row, "venue_city");
+    const city = cities.find((known) => known.name === name);
+    if (city) city.count += 1;
+    else cities.push({ name, timeZone, count: 1 });
+    venues.add(`${text(row, "venue_name")}|${name}`);
   }
-  return months;
+  cities.sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+  return { events: rows.length, venues: venues.size, months, cities };
 }
 
 /** Every upcoming published event's address and last change, for the sitemap. */

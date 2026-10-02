@@ -4,7 +4,7 @@ import { Logo } from "@/components/ui/logo";
 import { HeaderSearch } from "@/features/search/header-search";
 
 /** The width every page's content lines up to, with the side gutters. */
-export const PAGE = "mx-auto w-full max-w-260 px-4 sm:px-6";
+export const PAGE = "mx-auto w-full max-w-310 px-4 sm:px-8";
 
 export function SiteHeader() {
   return (

@@ -2,6 +2,7 @@
 
 import { useSyncExternalStore } from "react";
 import { ScheduleIcon } from "@/components/ui/icons";
+import { formatTime } from "../format";
 import { countdownLabel, visitorTime } from "../relative";
 
 // Both read the visitor's clock or zone, so the server renders nothing and the browser fills
@@ -47,6 +48,24 @@ export function Countdown({ startsAt, timeZone }: Props) {
     <span className="inline-flex h-8 animate-fade items-center gap-1.5 rounded-sm bg-secondary-container px-3 text-label-lg text-on-secondary-container">
       <ScheduleIcon className="size-[18px]" />
       {label}
+    </span>
+  );
+}
+
+/** A place's time right now with what follows it, "11:18 there now"; nothing until the page has loaded. */
+export function LocalTimeNow({
+  timeZone,
+  after,
+}: {
+  timeZone: string;
+  after: string;
+}) {
+  const now = useNowMinute();
+  if (now === null) return null;
+  return (
+    <span className="animate-fade">
+      {formatTime(new Date(now).toISOString(), timeZone)}
+      {after}
     </span>
   );
 }
