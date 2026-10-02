@@ -57,7 +57,7 @@ export function AppShell({
 
   return (
     <div data-rail={rail} className="group/shell flex min-h-dvh flex-col">
-      <header className="flex h-16 items-center gap-2 bg-surface-container pr-4 pl-3 sm:pr-6">
+      <header className="top-0 z-20 flex sm:sticky h-16 items-center gap-2 bg-surface-container pr-4 pl-3 sm:pr-6">
         <button
           type="button"
           onClick={toggleRail}
@@ -86,7 +86,7 @@ export function AppShell({
         <nav
           id="sections"
           aria-label="Sections"
-          className="hidden w-20 shrink-0 flex-col gap-1 border-r border-outline-variant bg-surface-container-low p-3 transition-[width] duration-250 ease-standard motion-reduce:transition-none group-data-[rail=expanded]/shell:w-58 sm:flex xl:group-data-[rail=auto]/shell:w-58"
+          className="sticky top-16 hidden h-[calc(100dvh-4rem)] w-20 shrink-0 flex-col gap-1 border-r border-outline-variant bg-surface-container-low p-3 transition-[width] duration-250 ease-standard motion-reduce:transition-none group-data-[rail=expanded]/shell:w-58 sm:flex xl:group-data-[rail=auto]/shell:w-58"
         >
           {sections.map(({ href, label, icon: Icon }) => (
             <RailLink
