@@ -218,7 +218,12 @@ function NewVenueCard({
   const form = useVenueForm(emptyVenue, "new-venue");
   const create = useCreateVenue();
   const [notice, setNotice] = useState<Notice | null>(null);
-  const duplicate = duplicateOf(venues, form.draft);
+  // The list refreshes before the form closes, and would then hold the venue just added: no
+  // check while saving or once saved, or the new venue is reported as its own duplicate.
+  const duplicate =
+    create.isPending || create.isSuccess
+      ? undefined
+      : duplicateOf(venues, form.draft);
 
   function onSubmit(event: FormEvent) {
     event.preventDefault();
