@@ -69,8 +69,10 @@ export function AccountView({ account, theme, contrast }: AccountViewProps) {
         >
           {initials(account.displayName)}
         </span>
+        {/* Whose account it is; a rename refreshes the page, so this follows at once. */}
         <div className="min-w-0">
-          <h1 className="text-headline-md">Account</h1>
+          <p className="text-label-lg text-on-surface-variant">Account</p>
+          <h1 className="truncate text-headline-md">{account.displayName}</h1>
           <p className="truncate text-body-md text-on-surface-variant">
             {account.email}
           </p>
