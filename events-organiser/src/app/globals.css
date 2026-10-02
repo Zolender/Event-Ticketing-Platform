@@ -13,6 +13,8 @@
   --md-on-primary: #ffffff;
   --md-primary-container: #1e3a8a;
   --md-on-primary-container: #90a8ff;
+  /* Text on the navy ticket (snackbar): brighter than on-primary-container. */
+  --md-on-primary-container-strong: #ffffff;
   --md-secondary: #555d7e;
   --md-on-secondary: #ffffff;
   --md-secondary-container: #d0d8ff;
@@ -175,6 +177,7 @@
   --md-on-primary: #000000;
   --md-primary-container: #b0c0ff;
   --md-on-primary-container: #00082a;
+  --md-on-primary-container-strong: #00082a;
   --md-secondary: #eeefff;
   --md-on-secondary: #000000;
   --md-secondary-container: #b9c1e7;
@@ -216,6 +219,7 @@
     --md-on-primary: #000000;
     --md-primary-container: #b0c0ff;
     --md-on-primary-container: #00082a;
+    --md-on-primary-container-strong: #00082a;
     --md-secondary: #eeefff;
     --md-on-secondary: #000000;
     --md-secondary-container: #b9c1e7;
@@ -256,6 +260,7 @@
   --color-on-primary: var(--md-on-primary);
   --color-primary-container: var(--md-primary-container);
   --color-on-primary-container: var(--md-on-primary-container);
+  --color-on-primary-container-strong: var(--md-on-primary-container-strong);
   --color-secondary: var(--md-secondary);
   --color-on-secondary: var(--md-on-secondary);
   --color-secondary-container: var(--md-secondary-container);

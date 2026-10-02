@@ -64,14 +64,14 @@ export function SnackbarHost() {
             className={`flex min-h-12 items-center gap-3 rounded-md pr-1.5 text-body-md ticket-side-notches ${
               error
                 ? "bg-error-container text-on-error-container"
-                : "bg-primary-container text-white"
+                : "bg-primary-container text-on-primary-container-strong"
             }`}
           >
             <span
               className={`grid w-12 shrink-0 place-items-center self-stretch border-r-2 border-dashed ${
                 error
                   ? "border-on-error-container/30"
-                  : "border-white/35 text-on-primary-container"
+                  : "border-on-primary-container-strong/35 text-on-primary-container"
               }`}
             >
               <Icon className="size-5" />
