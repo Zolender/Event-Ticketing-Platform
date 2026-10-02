@@ -232,10 +232,16 @@ construction; each section says which. Where I weighed options, the ones I did n
   each again.
   Tested on a production build: a cached page answered 404 on the very next visit after its event
   was unpublished.
-- During construction: a small set of security headers in both apps (no framing of the organiser
-  app at all, no content sniffing, a strict referrer, no camera, microphone or location). A full
-  Content Security Policy is left out for now: it needs a nonce per request, which would make
-  every cached page dynamic.
+- During construction: security headers in both apps (no framing of the organiser app at all, no
+  content sniffing, a strict referrer, no camera, microphone or location), and a Content Security
+  Policy that differs by app, each the strictest its rendering allows. The organiser app is
+  rendered per request anyway, so its proxy makes a nonce for every request and only scripts
+  carrying it run: an injected script or event handler is refused, so nothing injected can act as
+  a signed-in organiser. The public site keeps a fixed policy without nonces (everything from
+  itself only, no foreign scripts, nothing sent to other sites), because a nonce per request would
+  make every cached page dynamic; inline scripts stay allowed there, covered by React's escaping
+  and the escaped JSON-LD. I tested both by injecting scripts into the served HTML. Not taken:
+  hashes instead of nonces, still experimental in Next 16.
 - During construction: a daily Vercel cron reads one row of the public view, because Supabase's
   free plan pauses a project after a week without activity and a reviewer should never meet a
   paused database.
