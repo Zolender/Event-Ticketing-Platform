@@ -16,6 +16,8 @@ export async function POST(request: Request) {
     );
   }
   revalidatePath("/", "layout");
+  // A route handler sits outside the layout, so the sitemap is named on its own.
+  revalidatePath("/sitemap.xml");
   return NextResponse.json({ revalidated: true });
 }
 
